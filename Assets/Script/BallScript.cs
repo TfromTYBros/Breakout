@@ -21,6 +21,7 @@ public class BallScript : MonoBehaviour
         else VectorXMinus();
         if (UpPlus) VectorYPlus();
         else VectorYMinus();
+        Ball.transform.position = BallVector;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -30,9 +31,13 @@ public class BallScript : MonoBehaviour
         {
             SetBallVectorChangeRight();
         }
-        if (collision.transform.CompareTag("UpDown"))
+        if (collision.transform.CompareTag("UpBlock"))
         {
             SetBallVectorChangeUp();
+        }
+        if (collision.transform.CompareTag("Bar"))
+        {
+            SetBallVectorChangeByBar();
         }
     }
 
@@ -51,24 +56,28 @@ public class BallScript : MonoBehaviour
     void VectorXPlus()
     {
         BallVector.x += 0.01f;
-        Ball.transform.position = BallVector;
     }
 
     void VectorXMinus()
     {
         BallVector.x -= 0.01f;
-        Ball.transform.position = BallVector;
+        //Ball.transform.position = BallVector;
     }
 
     void VectorYPlus()
     {
         BallVector.y += 0.01f;
-        Ball.transform.position = BallVector;
+        //Ball.transform.position = BallVector;
     }
 
     void VectorYMinus()
     {
         BallVector.y -= 0.01f;
-        Ball.transform.position = BallVector;
+        //Ball.transform.position = BallVector;
+    }
+
+    void SetBallVectorChangeByBar()
+    {
+        Debug.Log("SetBallVectorChangeByBar");
     }
 }
