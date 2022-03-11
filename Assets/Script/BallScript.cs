@@ -7,8 +7,14 @@ public class BallScript : MonoBehaviour
     public GameObject Ball;
     Vector3 BallVector;
 
-    bool RightPlus = true;
-    bool UpPlus = true;
+    bool Right = true;
+    bool Left = false;
+    bool Up = true;
+    bool Down = false;
+    bool breakNow = false;
+
+    int level = 1;
+    float breaking = 0.025f;
 
     void Start()
     {
@@ -17,10 +23,11 @@ public class BallScript : MonoBehaviour
 
     void Update()
     {
-        if (RightPlus) VectorXPlus();
-        else VectorXMinus();
-        if (UpPlus) VectorYPlus();
-        else VectorYMinus();
+        if (Right) VectorXPlus();
+        if (Left) VectorXMinus();
+        if (Up) VectorYPlus();
+        if (Down) VectorYMinus();
+
         Ball.transform.position = BallVector;
     }
 
@@ -29,55 +36,101 @@ public class BallScript : MonoBehaviour
         Debug.Log("Hit");
         if (collision.transform.CompareTag("LeftRight"))
         {
-            SetBallVectorChangeRight();
+            SetBallVectorChangeLeftRightHit();
         }
         if (collision.transform.CompareTag("UpBlock"))
         {
-            SetBallVectorChangeUp();
+            SetBallVectorChangeUpBlockHit();
         }
-        if (collision.transform.CompareTag("Bar"))
+        if (collision.transform.CompareTag("BarLeft"))
         {
-            SetBallVectorChangeByBar();
+            Debug.Log("BarLeft");
+        }
+        if (collision.transform.CompareTag("BarLeftCenter"))
+        {
+            Debug.Log("BarLeftCenter");
+        }
+        if (collision.transform.CompareTag("BarCenter"))
+        {
+            Debug.Log("BarCenter");
+            SetBallVectorChangeBarCenterHit();
+        }
+        if (collision.transform.CompareTag("BarCenterRight"))
+        {
+            Debug.Log("BarCenterRight");
+            SetBallVectorChangeBarCenterRightHit();
+        }
+        if (collision.transform.CompareTag("BarRight"))
+        {
+            Debug.Log("BarRight");
+            SetBallVectorChangeBarRightHit();
         }
     }
 
-    void SetBallVectorChangeRight()
+    void SetBallVectorChangeLeftRightHit()
     {
-        if (RightPlus) RightPlus = false;
-        else RightPlus = true;
+        if (Right)
+        {
+            Right = false;
+            Left = true;
+        }
+        else
+        {
+            Left = false;
+            Right = true;
+        }
     }
 
-    void SetBallVectorChangeUp()
+    void SetBallVectorChangeUpBlockHit()
     {
-        if (UpPlus) UpPlus = false;
-        else UpPlus = true;
+        Up = false;
+        Down = true;
     }
 
     void VectorXPlus()
     {
-        BallVector.x += 0.01f;
+        BallVector.x += 0.05f;
     }
 
     void VectorXMinus()
     {
-        BallVector.x -= 0.01f;
-        //Ball.transform.position = BallVector;
+        BallVector.x -= 0.05f;
     }
 
     void VectorYPlus()
     {
-        BallVector.y += 0.01f;
-        //Ball.transform.position = BallVector;
+        BallVector.y += (0.05f - breakNow ? breaking:0)*level;
     }
 
     void VectorYMinus()
     {
-        BallVector.y -= 0.01f;
-        //Ball.transform.position = BallVector;
+        BallVector.y -= 0.05f;
     }
 
-    void SetBallVectorChangeByBar()
+    void SetBallVectorChangeBarCenterHit()
     {
-        Debug.Log("SetBallVectorChangeByBar");
+        Debug.Log("SetBallVectorChangeBarCenterHit");
+        Right = false;
+        Left = false;
+        Down = false;
+        Up = true;
+    }
+
+    void SetBallVectorChangeBarCenterRightHit()
+    {
+        Debug.Log("SetBallVectorChangeBarCenterRight");
+        Left = false;
+        Right = true;
+        Up = true;
+        Down = false;
+    }
+
+    void SetBallVectorChangeBarRightHit()
+    {
+        Debug.Log("SetBallVectorChangeBarRight");
+        Left = false;
+        Right = true;
+        Up = true;
+        Down = false;
     }
 }
