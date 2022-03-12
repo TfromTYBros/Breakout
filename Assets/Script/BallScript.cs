@@ -7,14 +7,14 @@ public class BallScript : MonoBehaviour
     public GameObject Ball;
     Vector3 BallVector;
 
-    bool Right = true;
+    bool Right = false;
     bool Left = false;
     bool Up = true;
     bool Down = false;
-    bool breakNow = false;
 
     int level = 1;
-    float breaking = 0.025f;
+    float breakingValue = 1;
+    bool breaking = false;
 
     void Start()
     {
@@ -33,7 +33,7 @@ public class BallScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Hit");
+        //Debug.Log("Hit");
         if (collision.transform.CompareTag("LeftRight"))
         {
             SetBallVectorChangeLeftRightHit();
@@ -44,26 +44,33 @@ public class BallScript : MonoBehaviour
         }
         if (collision.transform.CompareTag("BarLeft"))
         {
-            Debug.Log("BarLeft");
+            //Debug.Log("BarLeft");
+            SetBallChangeBarLeft();
+            SetChangeBreaking();
         }
         if (collision.transform.CompareTag("BarLeftCenter"))
         {
-            Debug.Log("BarLeftCenter");
+            //Debug.Log("BarLeftCenter");
+            SetBallChangeBarLeftCenter();
+            SetChangeBreaking();
         }
         if (collision.transform.CompareTag("BarCenter"))
         {
-            Debug.Log("BarCenter");
+            //Debug.Log("BarCenter");
             SetBallVectorChangeBarCenterHit();
+            SetChangeBreaking();
         }
         if (collision.transform.CompareTag("BarCenterRight"))
         {
-            Debug.Log("BarCenterRight");
+            //Debug.Log("BarCenterRight");
             SetBallVectorChangeBarCenterRightHit();
+            SetChangeBreaking();
         }
         if (collision.transform.CompareTag("BarRight"))
         {
-            Debug.Log("BarRight");
+            //Debug.Log("BarRight");
             SetBallVectorChangeBarRightHit();
+            SetChangeBreaking();
         }
     }
 
@@ -89,48 +96,77 @@ public class BallScript : MonoBehaviour
 
     void VectorXPlus()
     {
-        BallVector.x += 0.05f;
+        BallVector.x += 0.05f * level;
     }
 
     void VectorXMinus()
     {
-        BallVector.x -= 0.05f;
+        BallVector.x -= 0.05f * level;
     }
 
     void VectorYPlus()
     {
-        BallVector.y += (0.05f - breakNow ? breaking:0)*level;
+        BallVector.y += (0.05f * breakingValue) * level;
     }
 
     void VectorYMinus()
     {
-        BallVector.y -= 0.05f;
+        BallVector.y -= (0.05f * breakingValue) * level;
+    }
+
+    void SetChangeBreaking()
+    {
+        if (breaking) breakingValue = 1.5f;
+        else breakingValue = 1.0f;
+    }
+
+    void SetBallChangeBarLeft()
+    {
+        //Debug.Log("SetBallChangeBarLeft");
+        Right = false;
+        Down = false;
+        Left = true;
+        Up = true;
+        breaking = false;
+    }
+
+    void SetBallChangeBarLeftCenter()
+    {
+        //Debug.Log("SetBallChangeBarLeftCenter");
+        Right = false;
+        Down = false;
+        Left = true;
+        Up = true;
+        breaking = true;
     }
 
     void SetBallVectorChangeBarCenterHit()
     {
-        Debug.Log("SetBallVectorChangeBarCenterHit");
+        //Debug.Log("SetBallVectorChangeBarCenterHit");
         Right = false;
         Left = false;
         Down = false;
         Up = true;
+        breaking = false;
     }
 
     void SetBallVectorChangeBarCenterRightHit()
     {
-        Debug.Log("SetBallVectorChangeBarCenterRight");
+        //Debug.Log("SetBallVectorChangeBarCenterRight");
         Left = false;
         Right = true;
         Up = true;
         Down = false;
+        breaking = true;
     }
 
     void SetBallVectorChangeBarRightHit()
     {
-        Debug.Log("SetBallVectorChangeBarRight");
+        //Debug.Log("SetBallVectorChangeBarRight");
         Left = false;
         Right = true;
         Up = true;
         Down = false;
+        breaking = false;
     }
 }
