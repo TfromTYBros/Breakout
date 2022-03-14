@@ -21,12 +21,23 @@ public class ScoreScript : MonoBehaviour
 
     static public void SetScorePlus()
     {
-        if(Score <= 10000000) Score += 1000;
+        if(Score <= 10000000) Score += 1000 + (500 * LevelBonus());
         SetChangeText();
+    }
+
+    static int LevelBonus()
+    {
+        return 0 <= (Score / 8000) ? (Score / 8000) : 0;
     }
 
     static public void SetChangeText()
     {
         ScoreText.text = "SCOREF" + Score.ToString("00000000");
+    }
+
+    static public void ScoreReset()
+    {
+        Score = 0;
+        SetChangeText();
     }
 }

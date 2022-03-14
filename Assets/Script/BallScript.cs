@@ -9,22 +9,22 @@ public class BallScript : MonoBehaviour
     public GameObject Ball;
     Vector3 BallVector;
 
-    bool Right = false;
-    bool Left = false;
-    bool Up = false;
-    bool Down = false;
+    [SerializeField] bool Right = false;
+    [SerializeField] bool Left = false;
+    [SerializeField] bool Up = false;
+    [SerializeField] bool Down = false;
 
-    int level = 1;
+    
     float breakingValue = 1;
     bool breaking = false;
 
-    Vector3 BallStartPos = new Vector3(0.0f, -3.8f, -1.0f);
+    Vector3 BallStartPos = new Vector3(0.0f, -3.0f, -1.0f);
+    WaitForSeconds countDownF = new WaitForSeconds(4.9f);
 
     void Start()
     {
         breakOut = FindObjectOfType<Breakout>();
         BallVector = Ball.transform.position;
-        BallStartRightUp();
     }
 
     void Update()
@@ -35,12 +35,6 @@ public class BallScript : MonoBehaviour
         if (Down) VectorYMinus();
 
         Ball.transform.position = BallVector;
-        /*
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Debug.Log("GetSpace");
-            BallStop();
-        }*/
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -112,6 +106,7 @@ public class BallScript : MonoBehaviour
 
     void SetBallVectorChangeUpBlockHit()
     {
+        //Debug.Log("BlockHit");
         if (Up)
         {
             Up = false;
@@ -126,22 +121,22 @@ public class BallScript : MonoBehaviour
 
     void VectorXPlus()
     {
-        BallVector.x += 0.025f * level;
+        BallVector.x += 0.025f * breakOut.GetLevel();
     }
 
     void VectorXMinus()
     {
-        BallVector.x -= 0.025f * level;
+        BallVector.x -= 0.025f * breakOut.GetLevel();
     }
 
     void VectorYPlus()
     {
-        BallVector.y += (0.025f * breakingValue) * level;
+        BallVector.y += (0.025f * breakingValue) * breakOut.GetLevel();
     }
 
     void VectorYMinus()
     {
-        BallVector.y -= (0.025f * breakingValue) * level;
+        BallVector.y -= (0.025f * breakingValue) * breakOut.GetLevel();
     }
 
     void SetChangeBreaking()
@@ -208,6 +203,7 @@ public class BallScript : MonoBehaviour
 
     public void BallStop()
     {
+        //Debug.Log("BallStop");
         Right = false;
         Left = false;
         Up = false;
@@ -217,14 +213,18 @@ public class BallScript : MonoBehaviour
 
     public IEnumerator BallStartRightUp()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return countDownF;
         Right = true;
         Up = true;
+
+        Left = false;
+        Down = false;
+        breaking = false;
     }
 
     public IEnumerator DebugStart()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return countDownF;
         Up = true;
     }
 }

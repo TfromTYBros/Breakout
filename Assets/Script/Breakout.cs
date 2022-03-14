@@ -15,19 +15,22 @@ public class Breakout : MonoBehaviour
     public GameObject GameSetTextPar;
     public GameObject ResetButton;
 
+    public int level = 1;
     bool BoolGameStop = false;
 
     void Start()
     {
         ballScript = FindObjectOfType<BallScript>();
         Tmanager = FindObjectOfType<TimerManager>();
-        //StartGame();
-        DebugStart();
+        StartGame();
+        //DebugStart();
     }
 
     private void Update()
     {
         if(!BoolGameStop)IsGameSet();
+        if (BoolGameStop && Input.GetKey(KeyCode.Space) && GetBlockCount() <= 0) NextGame();
+        if (BoolGameStop && Input.GetKey(KeyCode.Space) && 0 < GetBlockCount()) ResetMethod();
     }
 
     void StartGame()
@@ -35,7 +38,8 @@ public class Breakout : MonoBehaviour
         //Debug.Log("Start");
         BoolGameStop = false;
         ballScript.BallStop();
-        MakeBlocks();
+        ballScript.BallPosReset();
+        StartCoroutine("MakeBlocks");
         Tmanager.TimerStart();
         Tmanager.StartCoroutine("TimerStop");
         ballScript.StartCoroutine("BallStartRightUp");
@@ -43,6 +47,7 @@ public class Breakout : MonoBehaviour
 
     void DebugStart()
     {
+        //Debug.Log("DebugStart");
         Instantiate(Blocks[0], new Vector3(0.0f, 2.0f, -1.0f), Quaternion.identity, BlockBox.transform);
         BoolGameStop = false;
         ballScript.BallStop();
@@ -71,8 +76,9 @@ public class Breakout : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("GameOver");
+        //Debug.Log("GameOver");
         ballScript.BallStop();
+        BoolGameStop = true;
         EnaGameOverText();
     }
 
@@ -95,7 +101,7 @@ public class Breakout : MonoBehaviour
     {
         GameSetTextPar.SetActive(true);
     }
-
+ 
     int GetBlockCount()
     {
         return BlockBox.transform.childCount;
@@ -108,19 +114,54 @@ public class Breakout : MonoBehaviour
 
     void GameSet()
     {
-        Debug.Log("GameSet");
+        //Debug.Log("GameSet");
         BoolGameStop = true;
         ballScript.BallStop();
         EnaGameSetText();
     }
 
-    public void ResetButtonMethod()
+    public void NextGame()
     {
-        DisGameOverText();
+        LevelUp();
         DisGameSetText();
-        ballScript.BallStop();
-        ballScript.BallPosReset();
         StartGame();
-        ballScript.BallStartRightUp();
+    }
+
+    public int GetLevel()
+    {
+        return level;
+    }
+
+    void LevelUp()
+    {
+        level++;
+    }
+
+    void LevelReset()
+    {
+        level = 1;
+    }
+
+    public void ResetMethod()
+    {
+        if (!Tmanager.GetValid())
+        {
+            LevelReset();
+            ScoreScript.ScoreReset();
+            DisGameOverText();
+            DisGameSetText();
+            ballScript.BallStop();
+            ballScript.BallPosReset();
+            DestroyAllBlock();
+            StartGame();
+        }
+    }
+
+    void DestroyAllBlock()
+    {
+        foreach(Transform trn in BlockBox.transform)
+        {
+            GameObject.Destroy(trn.gameObject);
+        }
     }
 }
