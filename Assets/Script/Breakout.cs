@@ -6,6 +6,7 @@ public class Breakout : MonoBehaviour
 {
     [SerializeField] public GameObject[] Blocks;
     [SerializeField] public GameObject BlockBox;
+    [SerializeField] public GameObject BlockPos;
 
     // Start is called before the first frame update
     void Start()
@@ -21,20 +22,20 @@ public class Breakout : MonoBehaviour
 
     void MakeBlocks()
     {
-        //zÇÕ-1
-        //-8.0fÇ©ÇÁ+8.0fÇ‹Ç≈Ç™xé≤Ç©ÅH
         for(int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 10; j++)
             {
-
+                float yOffset = (i * 0.5f);
+                float xOffset = (j * 1.6f);
+                Instantiate(Blocks[i], new Vector3(GetBlockPos().x + xOffset, GetBlockPos().y - yOffset, -1.0f),Quaternion.identity, BlockBox.transform);
             }
         }
     }
 
-    Vector2 GetBlockBoxPos()
+    Vector2 GetBlockPos()
     {
-        return BlockBox.transform.position;
+        return BlockPos.transform.position;
     }
 
     public static void GameSet()

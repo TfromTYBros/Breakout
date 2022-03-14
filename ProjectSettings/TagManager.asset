@@ -12,6 +12,9 @@ TagManager:
   - BarCenter
   - BarCenterRight
   - BarRight
+  - Ball
+  - Catch
+  - OutLine
   layers:
   - Default
   - TransparentFX

@@ -7,7 +7,7 @@ public class BallScript : MonoBehaviour
     public GameObject Ball;
     Vector3 BallVector;
 
-    bool Right = false;
+    bool Right = true;
     bool Left = false;
     bool Up = true;
     bool Down = false;
@@ -15,6 +15,8 @@ public class BallScript : MonoBehaviour
     int level = 1;
     float breakingValue = 1;
     bool breaking = false;
+
+    Vector3 BallStartPos = new Vector3(0.0f, -3.8f, -1.0f);
 
     void Start()
     {
@@ -29,6 +31,12 @@ public class BallScript : MonoBehaviour
         if (Down) VectorYMinus();
 
         Ball.transform.position = BallVector;
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log("GetSpace");
+            CatchBall();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -72,6 +80,15 @@ public class BallScript : MonoBehaviour
             SetBallVectorChangeBarRightHit();
             SetChangeBreaking();
         }
+        if (collision.transform.CompareTag("Catch"))
+        {
+            //Debug.Log("Catch");
+            CatchBall();
+        }
+        if (collision.transform.CompareTag("OutLine"))
+        {
+            Debug.Log("GameOver");
+        }
     }
 
     void SetBallVectorChangeLeftRightHit()
@@ -90,28 +107,36 @@ public class BallScript : MonoBehaviour
 
     void SetBallVectorChangeUpBlockHit()
     {
-        Up = false;
-        Down = true;
+        if (Up)
+        {
+            Up = false;
+            Down = true;
+        }
+        else
+        {
+            Up = true;
+            Down = false;
+        }
     }
 
     void VectorXPlus()
     {
-        BallVector.x += 0.05f * level;
+        BallVector.x += 0.025f * level;
     }
 
     void VectorXMinus()
     {
-        BallVector.x -= 0.05f * level;
+        BallVector.x -= 0.025f * level;
     }
 
     void VectorYPlus()
     {
-        BallVector.y += (0.05f * breakingValue) * level;
+        BallVector.y += (0.025f * breakingValue) * level;
     }
 
     void VectorYMinus()
     {
-        BallVector.y -= (0.05f * breakingValue) * level;
+        BallVector.y -= (0.025f * breakingValue) * level;
     }
 
     void SetChangeBreaking()
@@ -168,5 +193,11 @@ public class BallScript : MonoBehaviour
         Up = true;
         Down = false;
         breaking = false;
+    }
+
+    void CatchBall()
+    {
+        //Debug.Log("CatchBall");
+        BallVector = BallStartPos;
     }
 }
