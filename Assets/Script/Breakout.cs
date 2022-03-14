@@ -1,23 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Breakout : MonoBehaviour
 {
-    [SerializeField] public GameObject[] Blocks;
-    [SerializeField] public GameObject BlockBox;
-    [SerializeField] public GameObject BlockPos;
+    BallScript ballScript;
+    TimerManager Tmanager;
 
-    // Start is called before the first frame update
+    public GameObject[] Blocks;
+    public GameObject BlockBox;
+    public GameObject BlockPos;
+    public GameObject GameOverTextPar;
+    public GameObject GameSetTextPar;
+    public GameObject ResetButton;
+
+    bool BoolGameStop = false;
+
     void Start()
     {
-        StartGame();
+        ballScript = FindObjectOfType<BallScript>();
+        Tmanager = FindObjectOfType<TimerManager>();
+        //StartGame();
+        DebugStart();
+    }
+
+    private void Update()
+    {
+        if(!BoolGameStop)IsGameSet();
     }
 
     void StartGame()
     {
-        Debug.Log("Start");
+        //Debug.Log("Start");
+        BoolGameStop = false;
+        ballScript.BallStop();
         MakeBlocks();
+        Tmanager.TimerStart();
+        Tmanager.StartCoroutine("TimerStop");
+        ballScript.StartCoroutine("BallStartRightUp");
+    }
+
+    void DebugStart()
+    {
+        Instantiate(Blocks[0], new Vector3(0.0f, 2.0f, -1.0f), Quaternion.identity, BlockBox.transform);
+        BoolGameStop = false;
+        ballScript.BallStop();
+        Tmanager.TimerStart();
+        Tmanager.StartCoroutine("TimerStop");
+        ballScript.StartCoroutine("DebugStart");
     }
 
     void MakeBlocks()
@@ -38,8 +69,58 @@ public class Breakout : MonoBehaviour
         return BlockPos.transform.position;
     }
 
-    public static void GameSet()
+    public void GameOver()
+    {
+        Debug.Log("GameOver");
+        ballScript.BallStop();
+        EnaGameOverText();
+    }
+
+    void DisGameOverText()
+    {
+        GameOverTextPar.SetActive(false);
+    }
+
+    void EnaGameOverText()
+    {
+        GameOverTextPar.SetActive(true);
+    }
+
+    void DisGameSetText()
+    {
+        GameSetTextPar.SetActive(false);
+    }
+
+    void EnaGameSetText()
+    {
+        GameSetTextPar.SetActive(true);
+    }
+
+    int GetBlockCount()
+    {
+        return BlockBox.transform.childCount;
+    }
+
+    public void IsGameSet()
+    {
+        if (GetBlockCount() <= 0) GameSet();
+    }
+
+    void GameSet()
     {
         Debug.Log("GameSet");
+        BoolGameStop = true;
+        ballScript.BallStop();
+        EnaGameSetText();
+    }
+
+    public void ResetButtonMethod()
+    {
+        DisGameOverText();
+        DisGameSetText();
+        ballScript.BallStop();
+        ballScript.BallPosReset();
+        StartGame();
+        ballScript.BallStartRightUp();
     }
 }

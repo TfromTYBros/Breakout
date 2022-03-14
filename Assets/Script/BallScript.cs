@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class BallScript : MonoBehaviour
 {
+    Breakout breakOut;
+
     public GameObject Ball;
     Vector3 BallVector;
 
-    bool Right = true;
+    bool Right = false;
     bool Left = false;
-    bool Up = true;
+    bool Up = false;
     bool Down = false;
 
     int level = 1;
@@ -20,7 +22,9 @@ public class BallScript : MonoBehaviour
 
     void Start()
     {
+        breakOut = FindObjectOfType<Breakout>();
         BallVector = Ball.transform.position;
+        BallStartRightUp();
     }
 
     void Update()
@@ -31,12 +35,12 @@ public class BallScript : MonoBehaviour
         if (Down) VectorYMinus();
 
         Ball.transform.position = BallVector;
-
+        /*
         if (Input.GetKey(KeyCode.Space))
         {
             Debug.Log("GetSpace");
-            CatchBall();
-        }
+            BallStop();
+        }*/
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -53,13 +57,13 @@ public class BallScript : MonoBehaviour
         if (collision.transform.CompareTag("BarLeft"))
         {
             //Debug.Log("BarLeft");
-            SetBallChangeBarLeft();
+            SetBallVectorChangeBarLeft();
             SetChangeBreaking();
         }
         if (collision.transform.CompareTag("BarLeftCenter"))
         {
             //Debug.Log("BarLeftCenter");
-            SetBallChangeBarLeftCenter();
+            SetBallVectorChangeBarLeftCenter();
             SetChangeBreaking();
         }
         if (collision.transform.CompareTag("BarCenter"))
@@ -83,11 +87,12 @@ public class BallScript : MonoBehaviour
         if (collision.transform.CompareTag("Catch"))
         {
             //Debug.Log("Catch");
-            CatchBall();
+            BallPosReset();
         }
         if (collision.transform.CompareTag("OutLine"))
         {
-            Debug.Log("GameOver");
+            Debug.Log("OutLine");
+            breakOut.GameOver();
         }
     }
 
@@ -145,7 +150,7 @@ public class BallScript : MonoBehaviour
         else breakingValue = 1.0f;
     }
 
-    void SetBallChangeBarLeft()
+    void SetBallVectorChangeBarLeft()
     {
         //Debug.Log("SetBallChangeBarLeft");
         Right = false;
@@ -155,7 +160,7 @@ public class BallScript : MonoBehaviour
         breaking = false;
     }
 
-    void SetBallChangeBarLeftCenter()
+    void SetBallVectorChangeBarLeftCenter()
     {
         //Debug.Log("SetBallChangeBarLeftCenter");
         Right = false;
@@ -195,9 +200,31 @@ public class BallScript : MonoBehaviour
         breaking = false;
     }
 
-    void CatchBall()
+    public void BallPosReset()
     {
         //Debug.Log("CatchBall");
         BallVector = BallStartPos;
+    }
+
+    public void BallStop()
+    {
+        Right = false;
+        Left = false;
+        Up = false;
+        Down = false;
+        breaking = false;
+    }
+
+    public IEnumerator BallStartRightUp()
+    {
+        yield return new WaitForSeconds(5.0f);
+        Right = true;
+        Up = true;
+    }
+
+    public IEnumerator DebugStart()
+    {
+        yield return new WaitForSeconds(5.0f);
+        Up = true;
     }
 }
