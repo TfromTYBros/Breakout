@@ -15,10 +15,8 @@ public class BallScript : MonoBehaviour
     [SerializeField] bool Down = false;
 
     
-    float breakingXValue = 1;
-    float breakingYValue = 1;
-    //bool breakingX = false;
-    //bool breakingY = false;
+    float breakingXValue = 1.0f;
+    float breakingYValue = 1.0f;
 
     Vector3 BallStartPos = new Vector3(0.0f, -3.0f, -1.0f);
     WaitForSeconds countDownF = new WaitForSeconds(2.9f);
@@ -56,47 +54,47 @@ public class BallScript : MonoBehaviour
         //Bars
         if (collision.transform.CompareTag("Bar0"))
         {
-            Debug.Log("Bar0");
+            //Debug.Log("Bar0");
             SetBallVectorChangeBar0Hit();
         }
         if (collision.transform.CompareTag("Bar1"))
         {
-            Debug.Log("Bar1");
+            //Debug.Log("Bar1");
             SetBallVectorChangeBar1Hit();
         }
         if (collision.transform.CompareTag("Bar2"))
         {
-            Debug.Log("Bar2");
+            //Debug.Log("Bar2");
             SetBallVectorChangeBar2Hit();
         }
         if (collision.transform.CompareTag("Bar3"))
         {
-            Debug.Log("Bar3");
+            //Debug.Log("Bar3");
             SetBallVectorChangeBar3Hit();
         }
         if (collision.transform.CompareTag("BarCenter"))
         {
-            Debug.Log("BarCenter");
+            //Debug.Log("BarCenter");
             SetBallVectorChangeBarCenterHit();
         }
         if (collision.transform.CompareTag("Bar5"))
         {
-            Debug.Log("Bar5");
+            //Debug.Log("Bar5");
             SetBallVectorChangeBar5Hit();
         }
         if (collision.transform.CompareTag("Bar6"))
         {
-            Debug.Log("Bar6");
+            //Debug.Log("Bar6");
             SetBallVectorChangeBar6Hit();
         }
         if (collision.transform.CompareTag("Bar7"))
         {
-            Debug.Log("Bar7");
+            //Debug.Log("Bar7");
             SetBallVectorChangeBar7Hit();
         }
         if (collision.transform.CompareTag("Bar8"))
         {
-            Debug.Log("Bar8");
+            //Debug.Log("Bar8");
             SetBallVectorChangeBar8Hit();
         }
 
@@ -269,15 +267,6 @@ public class BallScript : MonoBehaviour
         SetChangeBreakingY(0.005f);
     }
 
-    void SetBallVectorChangeBarRightHit()
-    {
-        //Debug.Log("SetBallVectorChangeBarRight");
-        Left = false;
-        Right = true;
-        Up = true;
-        Down = false;
-    }
-
     public void BallPosReset()
     {
         //Debug.Log("CatchBall");
@@ -302,8 +291,8 @@ public class BallScript : MonoBehaviour
         Up = true;
         Left = false;
         Down = false;
-        SetChangeBreakingX(0.0f);
-        SetChangeBreakingY(0.0f);
+        SetChangeBreakingX(0.015f);
+        SetChangeBreakingY(0.015f);
     }
 
     public IEnumerator DebugStart()

@@ -15,7 +15,7 @@ public class Breakout : MonoBehaviour
     public GameObject GameSetTextPar;
     public GameObject ResetButton;
 
-    public int level = 1;
+    public float level = 1.0f;
     bool BoolGameStop = false;
 
     void Start()
@@ -130,19 +130,19 @@ public class Breakout : MonoBehaviour
         StartGame();
     }
 
-    public int GetLevel()
+    public float GetLevel()
     {
         return level;
     }
 
     void LevelUp()
     {
-        level++;
+        level += 0.05f;
     }
 
     void LevelReset()
     {
-        level = 1;
+        level = 1.0f;
     }
 
     public void ResetMethod()

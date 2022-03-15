@@ -21,7 +21,7 @@ public class ScoreScript : MonoBehaviour
 
     static public void SetScorePlus()
     {
-        if(Score <= 10000000) Score += 1000 + (500 * LevelBonus());
+        if(Score <= 99990000) Score += 1000 + (500 * LevelBonus());
         SetChangeText();
     }
 
