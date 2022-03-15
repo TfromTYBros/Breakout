@@ -20,9 +20,11 @@ public class BallScript : MonoBehaviour
 
     Vector3 BallStartPos = new Vector3(0.0f, -3.0f, -1.0f);
     WaitForSeconds countDownF = new WaitForSeconds(2.9f);
+    CircleCollider2D circleCollider2D;
 
     void Start()
     {
+        circleCollider2D = this.gameObject.GetComponent<CircleCollider2D>();
         breakOut = FindObjectOfType<Breakout>();
         BallVector = Ball.transform.position;
     }
@@ -226,5 +228,16 @@ public class BallScript : MonoBehaviour
     {
         yield return countDownF;
         Up = true;
+    }
+
+    public IEnumerator EnaBall()
+    {
+        yield return countDownF;
+        circleCollider2D.enabled = true;
+    }
+
+    public void DisBall()
+    {
+        circleCollider2D.enabled = false;
     }
 }

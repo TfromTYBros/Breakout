@@ -23,7 +23,7 @@ public class BarScript : MonoBehaviour
     {
         if (-6.5f < this.transform.position.x) IsRangeLeft = true;
         else IsRangeLeft = false;
-        if (this.transform.position.x < 6.6f) IsRangeRight = true;
+        if (this.transform.position.x < 6.5f) IsRangeRight = true;
         else IsRangeRight = false;
     }
 }

@@ -39,10 +39,11 @@ public class Breakout : MonoBehaviour
         BoolGameStop = false;
         ballScript.BallStop();
         ballScript.BallPosReset();
-        StartCoroutine("MakeBlocks");
+        MakeBlocks();
         Tmanager.TimerStart();
         Tmanager.StartCoroutine("TimerStop");
         ballScript.StartCoroutine("BallStartRightUp");
+        ballScript.StartCoroutine("EnaBall");
     }
 
     void DebugStart()
@@ -51,6 +52,7 @@ public class Breakout : MonoBehaviour
         Instantiate(Blocks[0], new Vector3(0.0f, 2.0f, -1.0f), Quaternion.identity, BlockBox.transform);
         BoolGameStop = false;
         ballScript.BallStop();
+        ballScript.BallPosReset();
         Tmanager.TimerStart();
         Tmanager.StartCoroutine("TimerStop");
         ballScript.StartCoroutine("DebugStart");
@@ -116,6 +118,7 @@ public class Breakout : MonoBehaviour
     {
         //Debug.Log("GameSet");
         BoolGameStop = true;
+        ballScript.DisBall();
         ballScript.BallStop();
         EnaGameSetText();
     }
