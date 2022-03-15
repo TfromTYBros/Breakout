@@ -19,7 +19,7 @@ public class BallScript : MonoBehaviour
     bool breaking = false;
 
     Vector3 BallStartPos = new Vector3(0.0f, -3.0f, -1.0f);
-    WaitForSeconds countDownF = new WaitForSeconds(4.9f);
+    WaitForSeconds countDownF = new WaitForSeconds(2.9f);
 
     void Start()
     {

@@ -9,10 +9,10 @@ public class TimerManager : MonoBehaviour
     public Text Timer;
 
     bool Vaild = false;
-    float time = 6.0f;
+    float time = 4.0f;
     int second = 0;
 
-    WaitForSeconds countDownF = new WaitForSeconds(4.9f);
+    WaitForSeconds countDownF = new WaitForSeconds(2.9f);
 
     void Update()
     {
@@ -33,7 +33,7 @@ public class TimerManager : MonoBehaviour
         yield return countDownF;
         Vaild = false;
         TimerPar.SetActive(false);
-        time = 6.0f;
+        time = 4.0f;
         second = 0;
         TextChanger();
     }
