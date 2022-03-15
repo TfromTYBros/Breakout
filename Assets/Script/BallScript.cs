@@ -85,7 +85,7 @@ public class BallScript : MonoBehaviour
         }
         if (collision.transform.CompareTag("OutLine"))
         {
-            Debug.Log("OutLine");
+            //Debug.Log("OutLine");
             breakOut.GameOver();
         }
     }

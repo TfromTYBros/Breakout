@@ -12,6 +12,8 @@ public class TimerManager : MonoBehaviour
     float time = 4.0f;
     int second = 0;
 
+    public GameObject InfoArrow;
+
     WaitForSeconds countDownF = new WaitForSeconds(2.9f);
 
     void Update()
@@ -26,6 +28,7 @@ public class TimerManager : MonoBehaviour
     {
         TimerPar.SetActive(true);
         Vaild = true;
+        EnaInfoArrow();
     }
 
     public IEnumerator TimerStop()
@@ -36,6 +39,7 @@ public class TimerManager : MonoBehaviour
         time = 4.0f;
         second = 0;
         TextChanger();
+        DisInfoArrow();
     }
 
     void CountDown()
@@ -53,5 +57,15 @@ public class TimerManager : MonoBehaviour
     public bool GetValid()
     {
         return Vaild;
+    }
+
+    void EnaInfoArrow()
+    {
+        InfoArrow.SetActive(true);
+    }
+
+    void DisInfoArrow()
+    {
+        InfoArrow.SetActive(false);
     }
 }

@@ -21,9 +21,9 @@ public class BarScript : MonoBehaviour
 
     void SetRange()
     {
-        if (-6.3f < this.transform.position.x) IsRangeLeft = true;
+        if (-6.5f < this.transform.position.x) IsRangeLeft = true;
         else IsRangeLeft = false;
-        if (this.transform.position.x < 6.3f) IsRangeRight = true;
+        if (this.transform.position.x < 6.6f) IsRangeRight = true;
         else IsRangeRight = false;
     }
 }
