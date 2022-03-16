@@ -1,6 +1,6 @@
 # name
 Breakout
-https://github.com/TfromTYBros/Breakout/blob/main/ScreenShot1.png
+![png]https://github.com/TfromTYBros/Breakout/blob/main/ScreenShot1.png
 
 ## GameLink
 https://unityroom.com/games/breakoutrecursioncs
