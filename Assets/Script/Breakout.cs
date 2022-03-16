@@ -16,6 +16,7 @@ public class Breakout : MonoBehaviour
     public GameObject ResetButton;
 
     public float level = 1.0f;
+    static public int levelUpCount = 1;
     bool BoolGameStop = false;
 
     void Start()
@@ -31,6 +32,11 @@ public class Breakout : MonoBehaviour
         if(!BoolGameStop)IsGameSet();
         if (BoolGameStop && Input.GetKey(KeyCode.Space) && GetBlockCount() <= 0) NextGame();
         if (BoolGameStop && Input.GetKey(KeyCode.Space) && 0 < GetBlockCount()) ResetMethod();
+        /*ゲーム紹介用スクショメソッド
+        if (Input.GetKey(KeyCode.Space))
+        {
+            ScreenCapture.CaptureScreenshot("ScreenShot.png");
+        }*/
     }
 
     void StartGame()
@@ -130,6 +136,11 @@ public class Breakout : MonoBehaviour
         StartGame();
     }
 
+    static public int GetLevelUpCount()
+    {
+        return levelUpCount;
+    }
+
     public float GetLevel()
     {
         return level;
@@ -138,11 +149,13 @@ public class Breakout : MonoBehaviour
     void LevelUp()
     {
         level += 0.05f;
+        levelUpCount++;
     }
 
     void LevelReset()
     {
         level = 1.0f;
+        levelUpCount = 1;
     }
 
     public void ResetMethod()

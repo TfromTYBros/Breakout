@@ -21,13 +21,13 @@ public class ScoreScript : MonoBehaviour
 
     static public void SetScorePlus()
     {
-        if(Score <= 99990000) Score += 1000 + (500 * LevelBonus());
+        if (Score <= 99990000) Score += (100 * LevelBonus());
         SetChangeText();
     }
 
-    static int LevelBonus()
+    static public int LevelBonus()
     {
-        return 0 <= (Score / 8000) ? (Score / 8000) : 0;
+        return Breakout.GetLevelUpCount();
     }
 
     static public void SetChangeText()
