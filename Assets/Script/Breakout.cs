@@ -13,30 +13,47 @@ public class Breakout : MonoBehaviour
     public GameObject BlockPos;
     public GameObject GameOverTextPar;
     public GameObject GameSetTextPar;
+    public GameObject ClicktotheScreenPar;
     public GameObject ResetButton;
+    public GameObject Arrow;
 
     public float level = 1.0f;
     static public int levelUpCount = 1;
-    bool BoolGameStop = false;
+    bool BoolGameStop = true;
+    bool clicked = false;
 
     void Start()
     {
         ballScript = FindObjectOfType<BallScript>();
         Tmanager = FindObjectOfType<TimerManager>();
-        StartGame();
+        //StartGame();
         //DebugStart();
     }
 
     private void Update()
     {
-        if(!BoolGameStop)IsGameSet();
-        if (BoolGameStop && Input.GetKey(KeyCode.Space) && GetBlockCount() <= 0) NextGame();
-        if (BoolGameStop && Input.GetKey(KeyCode.Space) && 0 < GetBlockCount()) ResetMethod();
-        /*ゲーム紹介用スクショメソッド
+        if (clicked)
+        {
+            if (!BoolGameStop) IsGameSet();
+            if (BoolGameStop && Input.GetKey(KeyCode.Space) && GetBlockCount() <= 0) NextGame();
+            if (BoolGameStop && Input.GetKey(KeyCode.Space) && 0 < GetBlockCount()) ResetMethod();
+        }
+        //ゲーム紹介用スクショメソッド
+        /*
         if (Input.GetKey(KeyCode.Space))
         {
-            ScreenCapture.CaptureScreenshot("ScreenShot.png");
+            ScreenCapture.CaptureScreenshot("ScreenShot1.png");
         }*/
+    }
+
+    public void ClicktotheScreen()
+    {
+        Arrow.SetActive(true);
+        ResetButton.SetActive(true);
+        ClicktotheScreenPar.SetActive(false);
+        BoolGameStop = false;
+        clicked = true;
+        StartGame();
     }
 
     void StartGame()
